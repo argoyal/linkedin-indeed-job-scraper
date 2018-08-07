@@ -1,0 +1,5 @@
+site_name: My Docs
+docs_dir: repository
+theme: material
+extra_css:
+    - hidetoc.css

@@ -1,0 +1,7 @@
+beautifulsoup4
+chromedriver_binary
+selenium
+lxml
+ipdb
+ipython
+pymongo

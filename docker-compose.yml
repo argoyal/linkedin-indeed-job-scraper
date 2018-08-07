@@ -1,0 +1,34 @@
+version: '2'
+
+services:
+  # mongo database
+  db:
+    image: mongo:3.6
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./data/mongodb:/data/db
+    command: --smallfiles --storageEngine wiredTiger
+
+  scrape:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: linkedin-scraper 
+    env_file:
+      local.env
+    command: >
+      /bin/ash -c "
+        while ! nc -z db 27017;
+        do
+          echo sleeping for database;
+          sleep 1;
+        done;
+
+        python main.py
+      "
+    volumes:
+      - ./src/:/code
+      - ./repository:/var/lib/repository
+    depends_on:
+      - db
